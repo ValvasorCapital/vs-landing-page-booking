@@ -2,7 +2,7 @@ import React from 'react';
 
 export const BookingSection: React.FC = () => {
   return (
-    <section id="booking" className="relative pt-28 pb-16 px-4 md:px-6 lg:px-8 bg-black overflow-hidden">
+    <section id="booking" className="relative pt-28 pb-16 px-4 md:px-6 lg:px-8 bg-black overflow-x-hidden">
       {/* Subtle gradient backdrop for depth */}
       <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-black to-black pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[50vh] bg-zinc-800/20 blur-[100px] rounded-full pointer-events-none" />
@@ -31,18 +31,18 @@ export const BookingSection: React.FC = () => {
         {/* Booking Widget Container - Wider on desktop, responsive on mobile */}
         <div className="relative w-full max-w-6xl mx-auto">
           {/* Subtle glow behind widget */}
-          <div className="absolute -inset-4 bg-white/[0.02] rounded-3xl blur-xl pointer-events-none" />
+          <div className="absolute -inset-4 bg-white/[0.02] rounded-3xl blur-xl pointer-events-none hidden md:block" />
           
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
+          <div className="relative rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
             <iframe 
               src="https://api.leadconnectorhq.com/widget/booking/mWml5VRSYfwRkpXAb8ji" 
               style={{ 
-                width: '100%', 
-                height: '720px',
-                border: 'none', 
+                width: '100%',
+                border: 'none',
                 overflow: 'hidden',
                 display: 'block'
               }} 
+              className="h-[1200px] md:h-[750px] w-full"
               scrolling="no" 
               id="mWml5VRSYfwRkpXAb8ji_1768660897184"
               title="Valvasor Capital Profit Audit"
