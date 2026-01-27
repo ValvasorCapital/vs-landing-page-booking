@@ -22,8 +22,8 @@ export const BookingSection: React.FC = () => {
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.1] mb-5">
             <span className="text-white">{t.hero.headlineStart}</span>
-            <br className="md:hidden" />
-            <span className="text-zinc-600 md:ml-3">{t.hero.headlineEnd}</span>
+            <br />
+            <span className="text-zinc-600">{t.hero.headlineEnd}</span>
           </h1>
           
           {/* Subheadline */}
