@@ -4,6 +4,7 @@ import { LanguageProvider } from './i18n/LanguageContext';
 import { Navbar } from './components/Navbar';
 import { Features } from './components/Features';
 import { BookingSection } from './components/BookingSection';
+import { Founder } from './components/Founder';
 import { Footer } from './components/Footer';
 
 const App: React.FC = () => {
@@ -18,6 +19,12 @@ const App: React.FC = () => {
         <main>
           {/* Booking Section now acts as the primary Hero entry */}
           <BookingSection />
+          
+          {/* What happens on the call */}
+          <Features />
+
+          {/* Growth Partnering / Founder section */}
+          <Founder />
         </main>
         <Footer />
       </div>

@@ -27,7 +27,7 @@ export const BookingSection: React.FC = () => {
           </h1>
           
           {/* Subheadline */}
-          <p className="text-zinc-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed font-normal">
+          <p className="text-zinc-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed font-normal">
             {t.hero.subheadline}
           </p>
         </div>
