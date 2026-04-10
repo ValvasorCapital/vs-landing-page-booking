@@ -6,7 +6,7 @@ export const Features: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative py-32 px-4 md:px-6 lg:px-8 bg-black overflow-hidden">
+    <section className="relative py-16 md:py-32 px-4 md:px-6 lg:px-8 bg-black overflow-hidden z-10">
       {/* Deep, subtle background glow for the section */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-zinc-900/30 blur-[120px] rounded-full pointer-events-none" />
 

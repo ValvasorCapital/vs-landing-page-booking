@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 export const BookingSection: React.FC = () => {
   const { t } = useLanguage();
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://link.msgsndr.com/js/form_embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <section id="booking" className="relative pt-28 pb-16 px-4 md:px-6 lg:px-8 bg-black overflow-x-hidden">
@@ -32,7 +43,7 @@ export const BookingSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Booking Widget Container - Wider on desktop, responsive on mobile */}
+        {/* Booking Widget Container - Auto resizing via LeadConnector script */}
         <div className="relative w-full max-w-6xl mx-auto">
           {/* Subtle glow behind widget */}
           <div className="absolute -inset-4 bg-white/[0.02] rounded-3xl blur-xl pointer-events-none hidden md:block" />
@@ -46,7 +57,7 @@ export const BookingSection: React.FC = () => {
                 overflow: 'hidden',
                 display: 'block'
               }} 
-              className="h-[1200px] md:h-[750px] w-full"
+              className="w-full min-h-[600px]"
               scrolling="no" 
               id="mWml5VRSYfwRkpXAb8ji_1768660897184"
               title={t.hero.widgetTitle}
@@ -55,7 +66,7 @@ export const BookingSection: React.FC = () => {
         </div>
         
         {/* Trust Indicators */}
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex justify-center relative z-10 pointer-events-none">
           <div className="flex items-center gap-6 md:gap-10 text-zinc-600">
             <div className="flex items-center gap-2">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

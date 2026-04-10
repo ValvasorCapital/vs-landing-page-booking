@@ -1,0 +1,6 @@
+fix: responsive layout and dynamic height scaling
+
+- Implemented LeadConnector form_embed.js script for dynamic iframe height resizing
+- Fixed massive black space below calendar by removing hardcoded heights
+- Redesigned Founder component for pristine mobile viewing (overlapped glassmorphism badge, constrained portrait ratio)
+- Adjusted padding and margins across Features and Founder sections for tighter editorial flow on smaller devices
