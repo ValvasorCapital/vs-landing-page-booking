@@ -15,11 +15,18 @@ export const Founder: React.FC = () => {
           {/* Large High-End Image */}
           <div className="lg:col-span-5 relative group order-1 lg:order-none max-w-[260px] sm:max-w-sm md:max-w-none mx-auto w-full">
             <div className="relative rounded-[2rem] overflow-hidden aspect-[4/5] bg-zinc-900 border border-white/[0.05] shadow-2xl">
-              <img 
-                src="/founder.png" 
-                alt="Rei Topol" 
-                className="w-full h-full object-cover object-center filter contrast-125 saturate-[0.85] group-hover:saturate-100 transition-all duration-700"
-              />
+              <picture>
+                <source srcSet="/founder.webp" type="image/webp" />
+                <img
+                  src="/founder.png"
+                  alt="Rei Topol"
+                  width={400}
+                  height={400}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover object-center filter contrast-125 saturate-[0.85] group-hover:saturate-100 transition-all duration-700"
+                />
+              </picture>
               {/* Refined gradient for text readability if needed, but mostly for cinematic mood */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-[#020202]/10 to-transparent opacity-90 md:opacity-80" />
             </div>

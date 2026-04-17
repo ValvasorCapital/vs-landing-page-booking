@@ -10,9 +10,13 @@ export const Footer: React.FC = () => {
     <footer className="py-24 px-6 bg-black border-t border-zinc-900">
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-12">
         <div className="flex flex-col items-center gap-4">
-            <img 
-              src="/valvasor-logo.svg" 
-              alt="Valvasor Capital" 
+            <img
+              src="/valvasor-logo.svg"
+              alt="Valvasor Capital"
+              width={270}
+              height={48}
+              loading="lazy"
+              decoding="async"
               className="h-12 w-auto"
             />
         </div>

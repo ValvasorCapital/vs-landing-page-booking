@@ -14,9 +14,13 @@ export const Navbar: React.FC = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
       <div className="max-w-7xl mx-auto glass rounded-2xl px-6 py-3 flex items-center justify-between">
         <a href={language === 'sl' ? '/sl' : '/'} className="flex items-center gap-2">
-          <img 
-            src="/valvasor-logo.svg" 
-            alt="Valvasor Capital" 
+          <img
+            src="/valvasor-logo.svg"
+            alt="Valvasor Capital"
+            width={180}
+            height={32}
+            decoding="async"
+            fetchPriority="high"
             className="h-8 w-auto"
           />
         </a>
