@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react';
+import Cal, { getCalApi } from "@calcom/embed-react";
 import { useLanguage } from '../i18n/LanguageContext';
 
 export const BookingSection: React.FC = () => {
   const { t } = useLanguage();
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://link.msgsndr.com/js/form_embed.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
+    (async function () {
+      const cal = await getCalApi({"namespace":"30min","embedLibUrl":"https://cal.valvasorcapital.com/embed/embed.js"});
+      cal("ui", {"theme":"dark","hideEventTypeDetails":false,"layout":"month_view"});
+    })();
   }, []);
 
   return (
@@ -43,24 +40,19 @@ export const BookingSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Booking Widget Container - Auto resizing via LeadConnector script */}
+        {/* Booking Widget Container - Cal.com */}
         <div className="relative w-full max-w-6xl mx-auto">
           {/* Subtle glow behind widget */}
           <div className="absolute -inset-4 bg-white/[0.02] rounded-3xl blur-xl pointer-events-none hidden md:block" />
           
-          <div className="relative rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
-            <iframe 
-              src="https://api.leadconnectorhq.com/widget/booking/mWml5VRSYfwRkpXAb8ji" 
-              style={{ 
-                width: '100%',
-                border: 'none',
-                overflow: 'hidden',
-                display: 'block'
-              }} 
-              className="w-full min-h-[600px]"
-              scrolling="no" 
-              id="mWml5VRSYfwRkpXAb8ji_1768660897184"
-              title={t.hero.widgetTitle}
+          <div className="relative rounded-2xl shadow-2xl shadow-black/50 overflow-hidden bg-zinc-900/50 min-h-[600px] border border-white/[0.05]">
+            <Cal 
+              namespace="30min"
+              calLink="valvasor/30min"
+              style={{width:"100%",height:"100%",overflow:"scroll"}}
+              config={{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}}
+              calOrigin="https://cal.valvasorcapital.com"
+              embedJsUrl="https://cal.valvasorcapital.com/embed/embed.js"
             />
           </div>
         </div>

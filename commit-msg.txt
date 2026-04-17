@@ -1,6 +1,6 @@
-fix: responsive layout and dynamic height scaling
+feat: migrate booking widget to Cal.com
 
-- Implemented LeadConnector form_embed.js script for dynamic iframe height resizing
-- Fixed massive black space below calendar by removing hardcoded heights
-- Redesigned Founder component for pristine mobile viewing (overlapped glassmorphism badge, constrained portrait ratio)
-- Adjusted padding and margins across Features and Founder sections for tighter editorial flow on smaller devices
+- Installed @calcom/embed-react
+- Replaced LeadConnector iframe with native Cal.com React component
+- Configured Cal widget with dark theme, month_view layout, and custom origin
+- Added minimal container styling (min-h-[600px], borders) to preserve the high-end aesthetic while loading
