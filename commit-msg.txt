@@ -1,6 +1,5 @@
-feat: migrate booking widget to Cal.com
+fix: tighten Cal.com widget container on desktop
 
-- Installed @calcom/embed-react
-- Replaced LeadConnector iframe with native Cal.com React component
-- Configured Cal widget with dark theme, month_view layout, and custom origin
-- Added minimal container styling (min-h-[600px], borders) to preserve the high-end aesthetic while loading
+- Removed redundant dark container wrapper (bg, border, shadow) around Cal widget
+- Removed forced min-height to let widget size naturally
+- Reduced max-width from 6xl to 5xl for a flush, premium feel

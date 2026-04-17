@@ -41,20 +41,15 @@ export const BookingSection: React.FC = () => {
         </div>
 
         {/* Booking Widget Container - Cal.com */}
-        <div className="relative w-full max-w-6xl mx-auto">
-          {/* Subtle glow behind widget */}
-          <div className="absolute -inset-4 bg-white/[0.02] rounded-3xl blur-xl pointer-events-none hidden md:block" />
-          
-          <div className="relative rounded-2xl shadow-2xl shadow-black/50 overflow-hidden bg-zinc-900/50 min-h-[600px] border border-white/[0.05]">
-            <Cal 
-              namespace="30min"
-              calLink="valvasor/30min"
-              style={{width:"100%",height:"100%",overflow:"scroll"}}
-              config={{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}}
-              calOrigin="https://cal.valvasorcapital.com"
-              embedJsUrl="https://cal.valvasorcapital.com/embed/embed.js"
-            />
-          </div>
+        <div className="relative w-full max-w-5xl mx-auto">
+          <Cal 
+            namespace="30min"
+            calLink="valvasor/30min"
+            style={{width:"100%",minHeight:"600px",overflow:"hidden"}}
+            config={{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}}
+            calOrigin="https://cal.valvasorcapital.com"
+            embedJsUrl="https://cal.valvasorcapital.com/embed/embed.js"
+          />
         </div>
         
         {/* Trust Indicators */}
