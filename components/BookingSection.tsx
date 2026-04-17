@@ -1,58 +1,145 @@
-import React, { useEffect } from 'react';
-import Cal, { getCalApi } from "@calcom/embed-react";
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
+
+// Code-split the Cal embed out of the main bundle. It's the heaviest
+// dependency on the page (pulls in @calcom/embed-react + boots an iframe
+// app) and it should never block the hero from painting.
+const Cal = lazy(() => import('@calcom/embed-react').then((m) => ({ default: m.default })));
+
+function CalendarPlaceholder({ label }: { label: string }) {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="w-full min-h-[600px] rounded-2xl border border-white/5 bg-white/[0.02] flex items-center justify-center"
+    >
+      <div className="flex flex-col items-center gap-3 text-zinc-500">
+        <div className="w-6 h-6 border-2 border-zinc-700 border-t-white/70 rounded-full animate-spin" />
+        <span className="text-xs tracking-[0.2em] uppercase">{label}</span>
+      </div>
+    </div>
+  );
+}
+
+function LazyCal() {
+  const { t } = useLanguage();
+  const [show, setShow] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Mount immediately if IntersectionObserver isn't available (old browsers).
+    if (!('IntersectionObserver' in window)) {
+      setShow(true);
+      return;
+    }
+
+    const node = ref.current;
+    if (!node) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setShow(true);
+            io.disconnect();
+            break;
+          }
+        }
+      },
+      // Pre-mount a bit before the user actually sees it so it feels instant.
+      { rootMargin: '400px 0px' }
+    );
+    io.observe(node);
+
+    // Failsafe: also mount once the main thread goes idle, so on-load visits
+    // (calendar is at the top of the page) still get it without waiting on IO.
+    const ric: number | undefined = (window as any).requestIdleCallback
+      ? (window as any).requestIdleCallback(() => setShow(true), { timeout: 2500 })
+      : window.setTimeout(() => setShow(true), 1500);
+
+    return () => {
+      io.disconnect();
+      if ((window as any).cancelIdleCallback && typeof ric === 'number') {
+        (window as any).cancelIdleCallback(ric);
+      } else if (typeof ric === 'number') {
+        window.clearTimeout(ric);
+      }
+    };
+  }, []);
+
+  // Configure the Cal UI once the module is loaded. We do it here instead of
+  // at module scope so it doesn't run until the calendar is actually needed.
+  useEffect(() => {
+    if (!show) return;
+    let cancelled = false;
+    (async () => {
+      const { getCalApi } = await import('@calcom/embed-react');
+      if (cancelled) return;
+      const cal = await getCalApi({
+        namespace: '30min',
+        embedLibUrl: 'https://cal.valvasor.si/embed/embed.js',
+      });
+      cal('ui', {
+        theme: 'dark',
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [show]);
+
+  return (
+    <div ref={ref} className="relative w-full max-w-5xl mx-auto">
+      {show ? (
+        <Suspense fallback={<CalendarPlaceholder label={t.hero.badge} />}>
+          <Cal
+            namespace="30min"
+            calLink="valvasor/30min"
+            style={{ width: '100%', minHeight: '600px', overflow: 'hidden' }}
+            config={{ layout: 'month_view', useSlotsViewOnSmallScreen: 'true', theme: 'dark' }}
+            calOrigin="https://cal.valvasor.si"
+            embedJsUrl="https://cal.valvasor.si/embed/embed.js"
+          />
+        </Suspense>
+      ) : (
+        <CalendarPlaceholder label={t.hero.badge} />
+      )}
+    </div>
+  );
+}
 
 export const BookingSection: React.FC = () => {
   const { t } = useLanguage();
 
-  useEffect(() => {
-    (async function () {
-      const cal = await getCalApi({"namespace":"30min","embedLibUrl":"https://cal.valvasorcapital.com/embed/embed.js"});
-      cal("ui", {"theme":"dark","hideEventTypeDetails":false,"layout":"month_view"});
-    })();
-  }, []);
-
   return (
     <section id="booking" className="relative pt-28 pb-16 px-4 md:px-6 lg:px-8 bg-black overflow-x-hidden">
-      {/* Subtle gradient backdrop for depth */}
       <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-black to-black pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[50vh] bg-zinc-800/20 blur-[100px] rounded-full pointer-events-none" />
-      
+
       <div className="relative max-w-7xl w-full mx-auto">
-        {/* Hero Content */}
         <div className="text-center mb-10">
-          {/* Status Badge */}
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm text-[10px] font-medium tracking-[0.2em] text-zinc-400 uppercase mb-6">
             <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_12px_#10b981] animate-pulse"></span>
             {t.hero.badge}
           </div>
-          
-          {/* Main Headline */}
+
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.1] mb-5">
             <span className="text-white">{t.hero.headlineStart}</span>
             <br />
             <span className="text-zinc-600">{t.hero.headlineEnd}</span>
           </h1>
-          
-          {/* Subheadline */}
+
           <p className="text-zinc-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed font-normal">
             {t.hero.subheadline}
           </p>
         </div>
 
-        {/* Booking Widget Container - Cal.com */}
-        <div className="relative w-full max-w-5xl mx-auto">
-          <Cal 
-            namespace="30min"
-            calLink="valvasor/30min"
-            style={{width:"100%",minHeight:"600px",overflow:"hidden"}}
-            config={{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}}
-            calOrigin="https://cal.valvasorcapital.com"
-            embedJsUrl="https://cal.valvasorcapital.com/embed/embed.js"
-          />
-        </div>
-        
-        {/* Trust Indicators */}
+        <LazyCal />
+
         <div className="mt-8 flex justify-center relative z-10 pointer-events-none">
           <div className="flex items-center gap-6 md:gap-10 text-zinc-600">
             <div className="flex items-center gap-2">

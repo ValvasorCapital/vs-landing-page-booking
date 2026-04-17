@@ -9,7 +9,6 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
       },
-      // Handle SPA routing for /sl path
       appType: 'spa',
       plugins: [react()],
       define: {
@@ -20,6 +19,19 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
-      }
+      },
+      build: {
+        target: 'es2020',
+        cssMinify: true,
+        sourcemap: false,
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              react: ['react', 'react-dom'],
+              icons: ['lucide-react'],
+            },
+          },
+        },
+      },
     };
 });
