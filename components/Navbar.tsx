@@ -35,24 +35,33 @@ export const Navbar: React.FC = () => {
           </a>
           
           {/* Language Switcher */}
-          <button 
+          <button
+            type="button"
+            aria-label={`Switch language to ${otherLang === 'en' ? 'English' : 'Slovenian'}`}
             onClick={() => switchLanguage(otherLang)}
             className="flex items-center gap-1.5 text-sm font-medium text-zinc-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-600"
           >
-            <Globe size={14} />
+            <Globe size={14} aria-hidden="true" />
             {langLabel}
           </button>
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-zinc-400" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X /> : <Menu />}
+        <button
+          type="button"
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
+          aria-controls="mobile-nav-menu"
+          className="md:hidden text-zinc-400"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="absolute top-24 left-6 right-6 glass p-6 rounded-2xl md:hidden animate-in slide-in-from-top-4 duration-300">
+        <div id="mobile-nav-menu" className="absolute top-24 left-6 right-6 glass p-6 rounded-2xl md:hidden animate-in slide-in-from-top-4 duration-300">
           <div className="flex flex-col gap-6">
             <a href="https://valvasorcapital.com/#services" className="text-lg font-medium border-b border-zinc-800 pb-2">{t.nav.services}</a>
             <a href="https://valvasorcapital.com/#transactions" className="text-lg font-medium border-b border-zinc-800 pb-2">{t.nav.trackRecord}</a>
@@ -60,11 +69,13 @@ export const Navbar: React.FC = () => {
             <a href="#booking" className="text-lg font-medium bg-white text-black p-3 rounded-lg text-center" onClick={() => setIsOpen(false)}>{t.nav.requestAudit}</a>
             
             {/* Mobile Language Switcher */}
-            <button 
+            <button
+              type="button"
+              aria-label={`Switch language to ${otherLang === 'en' ? 'English' : 'Slovenian'}`}
               onClick={() => switchLanguage(otherLang)}
               className="flex items-center justify-center gap-2 text-lg font-medium border border-zinc-800 p-3 rounded-lg text-zinc-400"
             >
-              <Globe size={18} />
+              <Globe size={18} aria-hidden="true" />
               {langLabel === 'SL' ? 'Slovenščina' : 'English'}
             </button>
           </div>

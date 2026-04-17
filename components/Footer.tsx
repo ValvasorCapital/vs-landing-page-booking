@@ -29,11 +29,21 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="flex gap-6 items-center">
-            <a href="https://www.linkedin.com/company/valvasor-capital/" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors">
-                <Linkedin size={18} />
+            <a
+              href="https://www.linkedin.com/company/valvasor-capital/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Valvasor Capital on LinkedIn"
+              className="text-zinc-500 hover:text-white transition-colors"
+            >
+              <Linkedin size={18} aria-hidden="true" />
             </a>
-            <a href="mailto:liaison@valvasorcapital.com" className="text-zinc-500 hover:text-white transition-colors">
-                <Mail size={18} />
+            <a
+              href="mailto:liaison@valvasorcapital.com"
+              aria-label="Email Valvasor Capital"
+              className="text-zinc-500 hover:text-white transition-colors"
+            >
+              <Mail size={18} aria-hidden="true" />
             </a>
         </div>
 
